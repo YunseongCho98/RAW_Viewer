@@ -1,0 +1,44 @@
+{
+  "name": "raw-16bit-viewer",
+  "displayName": "RAW 16-bit Viewer",
+  "description": "Headerless 16-bit RAW binary viewer. Resolution input, auto/manual window level, pixel value inspection",
+  "version": "0.1.0",
+  "publisher": "your-publisher-id",
+  "repository": { "type": "git", "url": "https://github.com/your-username/your-repo" },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCustomEditor:rawViewer.raw16"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "rawViewer.raw16",
+        "displayName": "RAW 16-bit Viewer",
+        "selector": [
+          {
+            "filenamePattern": "*.raw"
+          }
+        ],
+        "priority": "default"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "package": "npm run compile && (V=$(node -p \"require('./package.json').version\") && rm -rf extension && mkdir -p extension && cp package.json README.md extension/ && cp -r out extension/ && zip -r raw-16bit-viewer-$V.vsix extension && rm -rf extension)",
+    "package:vsce": "npm run compile && npx --yes @vscode/vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^18.x",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.0.0"
+  }
+}
