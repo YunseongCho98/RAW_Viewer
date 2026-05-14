@@ -19,12 +19,13 @@ VS Code / Cursor는 **Visual Studio Code 마켓플레이스**를 사용합니다
    - 한 번 만들면 다른 확장에서도 같은 게시자로 등록할 수 있습니다.
 
 ### 1.3 .vsix 파일 준비
-- 터미널에서 이 프로젝트 폴더로 이동한 뒤:
+- **마켓플레이스 웹 업로드**용으로는 **OPC 형식** .vsix가 필요합니다. 터미널에서 이 프로젝트 폴더로 이동한 뒤:
   ```bash
   npm install
-  npm run package
+  npm run package:marketplace
   ```
-- `raw-16bit-viewer-0.1.0.vsix` 같은 파일이 생성되면 준비 완료입니다. (Node 18에서도 가능)
+- `raw-viewer-0.1.0.vsix` 파일이 생성되면 준비 완료입니다. (Node 18에서도 가능)
+- (`npm run package`는 Cursor에서 "VSIX에서 설치"할 때 쓰는 단순 zip 형식이고, **마켓플레이스 업로드**에는 `package:marketplace`로 만든 파일을 쓰세요.)
 
 ---
 
@@ -53,7 +54,7 @@ VS Code / Cursor는 **Visual Studio Code 마켓플레이스**를 사용합니다
 1. [https://marketplace.visualstudio.com](https://marketplace.visualstudio.com) 접속 후 로그인합니다.
 2. **Publish extension** (또는 "New extension" / "Upload" 등) 메뉴를 클릭합니다.
 3. **VSIX** 탭을 선택합니다.
-4. **파일 선택** 또는 **Upload** 버튼으로 위에서 만든 **`raw-16bit-viewer-0.1.0.vsix`** 파일을 선택해 업로드합니다.
+4. **파일 선택** 또는 **Upload** 버튼으로 위에서 만든 **`raw-viewer-0.1.0.vsix`** 파일을 선택해 업로드합니다.
 5. 확장 이름, 설명, 카테고리 등이 자동으로 채워지면 확인하고, 필요하면 수정한 뒤 **게시(Publish)** 또는 **Upload**를 클릭합니다.
 6. 처리 후 마켓플레이스에 등록됩니다.
 

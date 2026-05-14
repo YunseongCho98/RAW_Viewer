@@ -1,10 +1,14 @@
 {
-  "name": "raw-16bit-viewer",
-  "displayName": "RAW 16-bit Viewer",
+  "name": "raw-viewer",
+  "displayName": "RAW Viewer",
   "description": "Headerless 16-bit RAW binary viewer. Resolution input, auto/manual window level, pixel value inspection",
-  "version": "0.1.0",
-  "publisher": "your-publisher-id",
-  "repository": { "type": "git", "url": "https://github.com/your-username/your-repo" },
+  "version": "1.0.1",
+  "publisher": "YS-Cho",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YunseongCho98/RAW_Viewer.git"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -12,14 +16,21 @@
     "Other"
   ],
   "activationEvents": [
-    "onCustomEditor:rawViewer.raw16"
+    "onCustomEditor:rawViewer.raw16",
+    "onCommand:rawViewer.openFolderSession"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "rawViewer.openFolderSession",
+        "title": "RAW Viewer: Open Folder Session"
+      }
+    ],
     "customEditors": [
       {
         "viewType": "rawViewer.raw16",
-        "displayName": "RAW 16-bit Viewer",
+        "displayName": "RAW Viewer",
         "selector": [
           {
             "filenamePattern": "*.raw"
@@ -27,13 +38,43 @@
         ],
         "priority": "default"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "rawViewer.openFolderSession",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation"
+        },
+        {
+          "command": "rawViewer.openFolderSession",
+          "when": "resourceExtname == .raw",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "RAW Viewer",
+      "properties": {
+        "rawViewer.autoOpenWithFolderPreset": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically open RAW files when a saved folder preset exactly matches the file size."
+        },
+        "rawViewer.autoOpenWithLastSuccessfulResolution": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically open RAW files when the most recently successful resolution exactly matches the file size."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -w -p ./",
-    "package": "npm run compile && (V=$(node -p \"require('./package.json').version\") && rm -rf extension && mkdir -p extension && cp package.json README.md extension/ && cp -r out extension/ && zip -r raw-16bit-viewer-$V.vsix extension && rm -rf extension)",
+    "compile": "node node_modules/typescript/bin/tsc -p ./",
+    "watch": "node node_modules/typescript/bin/tsc -w -p ./",
+    "package": "npm run compile && (V=$(node -p \"require('./package.json').version\") && N=$(node -p \"require('./package.json').name\") && rm -rf extension && mkdir -p extension && cp package.json README.md extension/ && cp -r out extension/ && zip -r ${N}-${V}.vsix extension && rm -rf extension)",
+    "package:marketplace": "npm run compile && node scripts/build-vsix.js",
     "package:vsce": "npm run compile && npx --yes @vscode/vsce package --no-dependencies"
   },
   "devDependencies": {
